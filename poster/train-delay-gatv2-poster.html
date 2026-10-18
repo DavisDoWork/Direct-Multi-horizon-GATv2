@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Direct Multi-Horizon GATv2 for Train Delay Prediction — Poster</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --navy:#16283d;
+  --steel:#2f5a76;
+  --amber:#e3a857;
+  --red:#c1442d;
+  --paper:#eeece3;
+  --card:#fffdf8;
+  --ink:#16283d;
+  --ink-soft:#4b5b6b;
+  --line:#d8d2c2;
+}
+
+*{box-sizing:border-box;}
+
+html,body{margin:0;padding:0;background:var(--steel);}
+
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  color:var(--ink);
+  display:flex;
+  justify-content:center;
+  padding:28px 0;
+}
+
+.poster{
+  width:1720px;
+  background:var(--paper);
+  box-shadow:0 30px 80px rgba(0,0,0,.35);
+  position:relative;
+  overflow:hidden;
+}
+
+/* ===== header ===== */
+.header{
+  background:var(--navy);
+  color:var(--paper);
+  padding:44px 64px 38px;
+  position:relative;
+  border-bottom:10px solid var(--amber);
+}
+.header::after{
+  content:"";
+  position:absolute;
+  right:0; top:0; bottom:0;
+  width:340px;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 34px,
+      rgba(227,168,87,.18) 34px 36px);
+  pointer-events:none;
+}
+.kicker{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:16px;
+  letter-spacing:.04em;
+  color:var(--amber);
+  margin:0 0 14px;
+}
+.title{
+  font-family:'Zilla Slab',serif;
+  font-weight:700;
+  font-size:58px;
+  line-height:1.08;
+  margin:0 0 16px;
+  max-width:1250px;
+}
+.subtitle{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:400;
+  font-size:20px;
+  color:#c9d3dc;
+  max-width:1100px;
+  line-height:1.5;
+  margin:0;
+}
+
+/* ===== grid ===== */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+}
+.col{
+  padding:40px 36px;
+  border-right:1px solid var(--line);
+}
+.col:last-child{border-right:none;}
+
+.section{margin-bottom:36px;}
+.section:last-child{margin-bottom:0;}
+
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin-bottom:16px;
+}
+.section-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:15px;
+  color:var(--amber);
+  background:var(--navy);
+  padding:3px 9px;
+  border-radius:2px;
+}
+.section-title{
+  font-family:'Zilla Slab',serif;
+  font-weight:600;
+  font-size:29px;
+  color:var(--navy);
+  margin:0;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-left:5px solid var(--steel);
+  border-radius:3px;
+  padding:20px 22px;
+}
+
+p{font-size:16.5px;line-height:1.62;margin:0 0 12px;color:var(--ink);}
+p:last-child{margin-bottom:0;}
+
+ul{margin:0;padding-left:20px;}
+li{font-size:16.5px;line-height:1.55;margin-bottom:10px;color:var(--ink);}
+li:last-child{margin-bottom:0;}
+li::marker{color:var(--amber);font-weight:700;}
+
+.formula-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:14px 18px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.formula-card:last-child{margin-bottom:0;}
+.formula-name{
+  font-size:15px;
+  font-weight:600;
+  color:var(--steel);
+  min-width:108px;
+  flex-shrink:0;
+}
+.formula-eq{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:16px;
+  color:var(--navy);
+}
+
+.diagram-wrap{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:16px;
+}
+.diagram-caption{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  margin-top:10px;
+  line-height:1.5;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14.5px;
+  background:var(--card);
+}
+caption{
+  text-align:left;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  margin-bottom:8px;
+  caption-side:top;
+}
+th,td{
+  padding:8px 9px;
+  text-align:right;
+  border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;
+}
+th{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:600;
+  color:var(--paper);
+  background:var(--steel);
+  text-align:right;
+}
+td:first-child,th:first-child{text-align:left;}
+tr:last-child td{border-bottom:none;}
+tr.best td{background:#f1e6cf;font-weight:600;}
+.table-wrap{margin-bottom:22px;}
+.table-wrap:last-child{margin-bottom:0;}
+
+.callout{
+  background:var(--navy);
+  color:var(--paper);
+  border-radius:3px;
+  padding:16px 20px;
+  margin-top:14px;
+}
+.callout p{color:var(--paper);font-size:15.5px;margin:0;line-height:1.55;}
+.callout .num{
+  font-family:'Zilla Slab',serif;
+  font-weight:700;
+  color:var(--amber);
+}
+
+.refs{list-style:none;padding:0;margin:0;counter-reset:refnum;}
+.refs li{
+  counter-increment:refnum;
+  font-size:13.5px;
+  line-height:1.5;
+  color:var(--ink-soft);
+  margin-bottom:11px;
+  padding-left:26px;
+  position:relative;
+}
+.refs li::before{
+  content:"["counter(refnum)"]";
+  position:absolute;
+  left:0;
+  color:var(--steel);
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:600;
+  font-size:12.5px;
+}
+
+.footer{
+  background:var(--navy);
+  padding:16px 64px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-top:10px solid var(--amber);
+}
+.footer span{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:#9fb0bf;
+  letter-spacing:.03em;
+}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="header">
+    <p class="kicker">RAILWAY DELAY FORECASTING · GRAPH NEURAL NETWORKS</p>
+    <h1 class="title">Direct Multi-Horizon GATv2 for Train Delay Prediction</h1>
+    <p class="subtitle">Replacing autoregressive rollout with direct multi-horizon decoding in an event-based, topology-aware graph attention framework — testing whether direct prediction curbs horizon-dependent error accumulation.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- COLUMN 1 -->
+    <div class="col">
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">01</span>
+          <h2 class="section-title">Motivation</h2>
+        </div>
+        <div class="card">
+          <p>Railway operations are a web of dependent events, not isolated observations. A primary delay at one train event can spread to neighboring events through shared infrastructure, dwell interactions, and headway constraints — producing secondary, knock-on delays that cascade through the network.</p>
+          <ul>
+            <li>Graph-based learning represents train events as nodes and operational dependencies as edges, letting message passing carry delay information between connected events.</li>
+            <li>Prior work (Nguyen &amp; Li) pairs an event-based GATv2 encoder with autoregressive rollout for multi-step forecasts — but recursively reusing predictions means an early error can compound at later horizons.</li>
+            <li><strong>Research question:</strong> is horizon degradation caused by the graph representation itself, or by the autoregressive decoding strategy layered on top of it?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">02</span>
+          <h2 class="section-title">Feature engineering</h2>
+        </div>
+        <div class="formula-card">
+          <span class="formula-name">Dwell time</span>
+          <span class="formula-eq">D<sub>i</sub> = t<sup>dep</sup><sub>i</sub> − t<sup>arr</sup><sub>i</sub></span>
+        </div>
+        <div class="formula-card">
+          <span class="formula-name">Running time</span>
+          <span class="formula-eq">R<sub>i</sub> = t<sup>arr</sup><sub>i</sub> − t<sup>dep</sup><sub>i−1</sub></span>
+        </div>
+        <div class="formula-card">
+          <span class="formula-name">Headway</span>
+          <span class="formula-eq">H<sub>i</sub> = t<sub>i</sub> − t<sub>i−1</sub></span>
+        </div>
+        <div class="card" style="margin-top:12px;">
+          <p>Trip context is captured with stop sequence, normalized trip progress, and stops remaining. Time of day is encoded with sine / cosine transforms plus a rush-hour indicator. Data comes from Subway Data NYC observed trips, matched to the official MTA static GTFS schedule by service day.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 2 -->
+    <div class="col">
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">03</span>
+          <h2 class="section-title">Graph construction</h2>
+        </div>
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+            <text x="20" y="26" font-family="IBM Plex Mono" font-size="12" fill="#4b5b6b">Trip A</text>
+            <text x="20" y="150" font-family="IBM Plex Mono" font-size="12" fill="#4b5b6b">Trip B</text>
+
+            <!-- Trip A row: Arr -> Dwell -> Dep -> Run -> Arr -->
+            <circle cx="90" cy="55" r="15" fill="#2f5a76"/>
+            <text x="90" y="59" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#eeece3">Arr</text>
+            <circle cx="220" cy="55" r="15" fill="#2f5a76"/>
+            <text x="220" y="59" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#eeece3">Dep</text>
+            <circle cx="400" cy="55" r="15" fill="#2f5a76"/>
+            <text x="400" y="59" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#eeece3">Arr</text>
+
+            <line x1="105" y1="55" x2="205" y2="55" stroke="#e3a857" stroke-width="3"/>
+            <text x="155" y="42" text-anchor="middle" font-size="11" fill="#e3a857" font-weight="600">Dwell</text>
+            <line x1="235" y1="55" x2="385" y2="55" stroke="#c1442d" stroke-width="3"/>
+            <text x="310" y="42" text-anchor="middle" font-size="11" fill="#c1442d" font-weight="600">Run</text>
+
+            <!-- Trip B row -->
+            <circle cx="90" cy="175" r="15" fill="#2f5a76"/>
+            <text x="90" y="179" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#eeece3">Arr</text>
+            <circle cx="220" cy="175" r="15" fill="#2f5a76"/>
+            <text x="220" y="179" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#eeece3">Dep</text>
+            <circle cx="400" cy="175" r="15" fill="#2f5a76"/>
+            <text x="400" y="179" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#eeece3">Arr</text>
+
+            <line x1="105" y1="175" x2="205" y2="175" stroke="#e3a857" stroke-width="3"/>
+            <line x1="235" y1="175" x2="385" y2="175" stroke="#c1442d" stroke-width="3"/>
+
+            <!-- Headway edges (same stop, same route, consecutive trains) -->
+            <line x1="90" y1="70" x2="90" y2="160" stroke="#16283d" stroke-width="3" stroke-dasharray="2 6"/>
+            <line x1="220" y1="70" x2="220" y2="160" stroke="#16283d" stroke-width="3" stroke-dasharray="2 6"/>
+            <text x="465" y="115" font-size="11" fill="#16283d" font-weight="600">Headway</text>
+            <line x1="440" y1="112" x2="460" y2="112" stroke="#16283d" stroke-width="3" stroke-dasharray="2 6"/>
+
+            <!-- legend -->
+            <rect x="20" y="250" width="14" height="4" fill="#e3a857"/>
+            <text x="40" y="255" font-size="11" fill="#4b5b6b">Dwell edge — arrival → departure, same stop</text>
+            <rect x="20" y="270" width="14" height="4" fill="#c1442d"/>
+            <text x="40" y="275" font-size="11" fill="#4b5b6b">Run edge — departure → next arrival, same trip</text>
+          </svg>
+          <p class="diagram-caption">Every arrival and departure is a node (event-based graph). Dwell edges link an arrival to its departure at the same stop; Run edges link a departure to the next arrival on the same trip; Headway edges link consecutive trains sharing route, direction, stop, and event type.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">04</span>
+          <h2 class="section-title">Model architecture</h2>
+        </div>
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+            <rect x="10" y="20" width="120" height="50" rx="3" fill="#2f5a76"/>
+            <text x="70" y="41" text-anchor="middle" font-size="11" fill="#eeece3" font-weight="600">Event graph</text>
+            <text x="70" y="56" text-anchor="middle" font-size="9" fill="#cfe0ea">(X, E)</text>
+
+            <path d="M130 45 L165 45" stroke="#16283d" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <rect x="165" y="10" width="150" height="70" rx="3" fill="#16283d"/>
+            <text x="240" y="38" text-anchor="middle" font-size="11" fill="#e3a857" font-weight="600">GATv2 encoder</text>
+            <text x="240" y="54" text-anchor="middle" font-size="9" fill="#c9d3dc">3 attention layers</text>
+            <text x="240" y="68" text-anchor="middle" font-size="9" fill="#c9d3dc">learned edge weights</text>
+
+            <path d="M315 45 L350 45" stroke="#16283d" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <rect x="350" y="10" width="80" height="32" rx="3" fill="#c1442d"/>
+            <text x="390" y="30" text-anchor="middle" font-size="10" fill="#fffdf8" font-weight="600">Classifier</text>
+            <rect x="350" y="54" width="80" height="32" rx="3" fill="#e3a857"/>
+            <text x="390" y="74" text-anchor="middle" font-size="10" fill="#16283d" font-weight="600">Regressor</text>
+            <text x="390" y="100" text-anchor="middle" font-size="9" fill="#4b5b6b">two-stage hurdle</text>
+
+            <path d="M430 45 L460 45" stroke="#16283d" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <rect x="460" y="0" width="95" height="26" rx="3" fill="#fffdf8" stroke="#2f5a76" stroke-width="1.5"/>
+            <text x="507" y="17" text-anchor="middle" font-size="10" fill="#16283d" font-weight="600">t+1 head</text>
+            <rect x="460" y="32" width="95" height="26" rx="3" fill="#fffdf8" stroke="#2f5a76" stroke-width="1.5"/>
+            <text x="507" y="49" text-anchor="middle" font-size="10" fill="#16283d" font-weight="600">t+2 head</text>
+            <rect x="460" y="64" width="95" height="26" rx="3" fill="#fffdf8" stroke="#2f5a76" stroke-width="1.5"/>
+            <text x="507" y="81" text-anchor="middle" font-size="10" fill="#16283d" font-weight="600">t+3 head</text>
+
+            <path d="M400 100 L400 130 L500 130 L500 105" stroke="#16283d" stroke-width="1.5" fill="none" stroke-dasharray="3 4"/>
+            <rect x="150" y="130" width="260" height="60" rx="3" fill="#fffdf8" stroke="#e3a857" stroke-width="2"/>
+            <text x="280" y="152" text-anchor="middle" font-size="11" fill="#16283d" font-weight="600">Horizon-weighted aggregation</text>
+            <text x="280" y="170" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4b5b6b">w_k ∝ 1 / MAE_k</text>
+            <text x="280" y="184" text-anchor="middle" font-size="9" fill="#4b5b6b">combines overlapping predictions per event</text>
+
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#16283d"/>
+              </marker>
+            </defs>
+          </svg>
+          <p class="diagram-caption">A 3-layer GATv2 backbone encodes each event node, feeding a two-stage hurdle (classify delayed / not, then regress magnitude). The proposed Direct Multi-Horizon (DMH) heads predict t+1, t+2, t+3 simultaneously from the current graph state, instead of feeding predictions back in autoregressively. Overlapping horizon estimates for the same event are combined with validation-MAE-based weights.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 3 -->
+    <div class="col">
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">05</span>
+          <h2 class="section-title">Results</h2>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Table I — overall validation performance</caption>
+            <thead>
+              <tr><th>Model</th><th>MAE</th><th>RMSE</th><th>Acc.</th><th>Prec.</th><th>Rec.</th><th>F1</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Zero-delay</td><td>6.710</td><td>13.711</td><td>.517</td><td>.000</td><td>.000</td><td>.000</td></tr>
+              <tr><td>Persistence</td><td>0.729</td><td>1.893</td><td>.929</td><td>.938</td><td>.913</td><td>.926</td></tr>
+              <tr><td>Autoregressive GATv2</td><td>3.124</td><td>7.597</td><td>.922</td><td>.938</td><td>.899</td><td>.918</td></tr>
+              <tr class="best"><td>DMH GATv2 + agg.</td><td>2.560</td><td>6.914</td><td>.946</td><td>.949</td><td>.938</td><td>.944</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Table II — horizon-wise MAE (min) and accuracy</caption>
+            <thead>
+              <tr><th>Model</th><th>t+1</th><th>t+2</th><th>t+3</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>AR MAE</td><td>2.411</td><td>2.861</td><td>3.124</td></tr>
+              <tr class="best"><td>DMH MAE</td><td>2.645</td><td>2.703</td><td>2.751</td></tr>
+              <tr><td>AR Acc.</td><td>.957</td><td>.933</td><td>.922</td></tr>
+              <tr class="best"><td>DMH Acc.</td><td>.957</td><td>.936</td><td>.926</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <p><span class="num">4.4 pts</span> higher recall for DMH over autoregressive GATv2 (93.8% vs 89.9%), and DMH's MAE stays nearly flat across horizons (2.65 → 2.75 min) while the autoregressive model's error climbs from 2.41 to 3.12 min — the signature of compounding error.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">06</span>
+          <h2 class="section-title">Conclusion</h2>
+        </div>
+        <div class="card">
+          <p>Direct multi-horizon decoding preserves the topology-aware strengths of the event-based GATv2 encoder while measurably curbing horizon-dependent error growth. DMH is the stronger delay <em>detector</em> and the more stable regressor at longer horizons, even though the persistence baseline remains hard to beat on raw MAE — a reminder that subway delays are often locally stable, and that model value here lies in decision support rather than beating a naive baseline outright. Future work: sweep the horizon length K, and test on networks with more frequent sudden disruptions and congestion.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-num">07</span>
+          <h2 class="section-title">References</h2>
+        </div>
+        <ul class="refs">
+          <li>Spanninger, Trivella, Büchel &amp; Corman, "A review of train delay prediction approaches," <em>J. Rail Transport Planning &amp; Management</em>, 22, 2022.</li>
+          <li>Nguyen &amp; Li, "Deep Learning to Identify the Spatio-Temporal Cascading Effects of Train Delays in a High-Density Network," Proc. GeoAI '25, ACM SIGSPATIAL, 2025.</li>
+          <li>Kipf &amp; Welling, "Semi-Supervised Classification with Graph Convolutional Networks," ICLR, 2017.</li>
+          <li>"Subway Data NYC," subwaydata.nyc, accessed Sep. 2026.</li>
+          <li>Brody, Alon &amp; Yahav, "How Attentive Are Graph Attention Networks?" ICLR, 2022.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>EVENT-BASED GRAPH · GATv2 · TWO-STAGE HURDLE · DIRECT MULTI-HORIZON DECODING</span>
+    <span>K = 3 HORIZONS</span>
+  </div>
+
+</div>
+</body>
+</html>

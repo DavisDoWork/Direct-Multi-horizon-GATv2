@@ -1,0 +1,3 @@
+subset,events,equal_weight_mae_sec,inverse_mae_weight_mae_sec
+all_available,80629,154.95515767882526,154.88858733446662
+all_3_forecasts,77361,153.66504430599397,153.59645653115524

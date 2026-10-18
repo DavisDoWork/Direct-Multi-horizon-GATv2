@@ -1,0 +1,12 @@
+data/
+*.mov
+*.mp4
+*.pt
+*.pth
+*.ckpt
+linkedln_post/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+.ipynb_checkpoints/
